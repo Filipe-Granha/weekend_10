@@ -14,11 +14,13 @@ var Hero = function(name, favFood) {
 }
 
 Hero.prototype.increaseHealth = function (food) {
+ hero.stomach.push(food);
  this.health += food.value
 }
 
 Hero.prototype.favFoodExtraHealth = function(food) {
-  if(food.name === this.favFood)
+    hero.stomach.push(food);
+    if(food.name === this.favFood)
     this.health += food.value * 1.5
 }
 
@@ -56,7 +58,12 @@ Hero.prototype.sortTasksByReward = function() {
 }
 
 Hero.prototype.setTaskToCompleted = function(task) {
-  task.completed = true
+   //should not include push(task), because we might want to add a task to the list, without setting it immediately to completed
+       for (i = 0; i < this.tasks.length; i++) {
+           if (this.tasks[i] === task) {
+               task.completed = true
+           }
+       }
 }
 
 Hero.prototype.moveTaskToCompletedTasks = function(task) {
@@ -66,8 +73,15 @@ Hero.prototype.moveTaskToCompletedTasks = function(task) {
     return null
 }
 
-  
+Hero.prototype.eatsPoisonousFood = function(food) {
+  food.isNowInfected(food)
+  hero.stomach.push(food);
+  this.health -= food.value
+}
 
+Hero.prototype.viewCompletedTasks = function() {
+  return this.tasksCompleted
+}
 
 
 
